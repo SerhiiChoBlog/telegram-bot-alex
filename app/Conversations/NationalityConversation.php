@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Conversations;
 
+use App\Services\NationalityService;
 use BotMan\BotMan\Messages\Conversations\Conversation;
 
 class NationalityConversation extends Conversation
@@ -22,6 +23,11 @@ class NationalityConversation extends Conversation
 
     private function prepareResponse(string $name): string
     {
-        return "Thanks $name";
+        $service = new NationalityService($name);
+        $response = $service->handle();
+
+        $countries = array_column($response['country'], 'country_id');
+
+        return 'Probable nationalities are: ' . implode(', ', $countries);
     }
 }
