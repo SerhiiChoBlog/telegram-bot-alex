@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Conversations\ButtonsConversation;
 use BotMan\BotMan\BotMan;
 
 class BotController extends Controller
@@ -11,7 +12,7 @@ class BotController extends Controller
         $botman = app('botman');
 
         $botman->fallback(function (BotMan $bot) {
-            $bot->reply('Hello');
+            $bot->startConversation(new ButtonsConversation());
         });
 
         $botman->listen();
