@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use BotMan\BotMan\BotMan;
 
 class BotController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function __invoke(Request $request)
+    public function __invoke(): void
     {
-        //
+        $botman = app('botman');
+
+        $botman->fallback(function (BotMan $bot) {
+            $bot->reply('Hello');
+        });
+
+        $botman->listen();
     }
 }
