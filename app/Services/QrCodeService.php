@@ -6,9 +6,14 @@ namespace App\Services;
 
 class QrCodeService implements Service
 {
-    public function handle(): mixed
+    private const URL = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=';
+
+    public function __construct(private string $url)
     {
-        return;
+    }
+
+    public function handle(): string
+    {
+        return self::URL . $this->url;
     }
 }
-
