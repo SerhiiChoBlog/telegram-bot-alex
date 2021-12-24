@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Conversations;
 
+use App\Services\QrCodeService;
 use BotMan\BotMan\Messages\Conversations\Conversation;
 
 class QrCodeConversation extends Conversation
@@ -22,6 +23,7 @@ class QrCodeConversation extends Conversation
 
     private function prepareResponse(string $url): string
     {
-        return "Thanks for the $url";
+        $service = new QrCodeService($url);
+        return $service->handle();
     }
 }
