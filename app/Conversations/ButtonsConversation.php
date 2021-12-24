@@ -21,7 +21,23 @@ class ButtonsConversation extends Conversation
             ->addRow(KeyboardButton::create(BotButtons::QR_CODE->value));
 
         $this->ask('Choose the option', function (string $answer): void {
-            $this->bot->reply("Your answer is $answer");
+            $this->handleClick($answer);
         }, $keyboard->toArray());
+    }
+
+    private function handleClick(string $answer): void
+    {
+        $conversation = match ($answer) {
+            BotButtons::NATIONALITY->value => new NationalityConversation(),
+            BotButtons::QR_CODE->value => new QrCodeConversation(),
+            default => null,
+        };
+
+        if (!$conversation) {
+            $this->bot->startConversation(new self());
+            return;
+        }
+
+        $this->bot->startConversation($conversation);
     }
 }
